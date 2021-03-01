@@ -1,12 +1,118 @@
-﻿<Window x:Class="Playlistosu.MainWindow"
+﻿<Window x:Name="window" x:Class="Playlistosu.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Playlistosu"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:smtx="clr-namespace:ShowMeTheXAML;assembly=ShowMeTheXAML"
+        xmlns:local="clr-namespace:Playlistosu" mc:Ignorable="d"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        Background="{DynamicResource MaterialDesignPaper}"
+        Title="Playlistosu - Super cow power" Width="700" Height="420"
+        MinWidth="675" MinHeight="420" TextElement.FontFamily="Quicksand">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <materialDesign:DialogHost Name="dialogHost"/>
+        <StackPanel Grid.Row="0" Margin="30 20 30 30" VerticalAlignment="Top">
+            <Label HorizontalAlignment="Left" VerticalAlignment="Top"
+                       Content="Playlistosu"
+                       FontSize="46" FontFamily="Quicksand Medium"/>
+            <Label HorizontalAlignment="Left" VerticalAlignment="Top"
+			           FontSize="26" FontFamily="Quicksand Light">
+                <Label.Content>
+                    <AccessText TextWrapping="Wrap" 
+                                    Text="Make a playlist you can play on your favourite media player from osu! songs library!"/>
+                </Label.Content>
+            </Label>
+        </StackPanel>
+
+        <Grid Grid.Row="1" Margin="30 0 30 30">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="1.15*"/>
+            </Grid.ColumnDefinitions>
+            
+            <StackPanel Grid.Column="0">
+                <StackPanel Height="Auto" VerticalAlignment="Top" Orientation="Horizontal">
+                    <Label VerticalAlignment="Center" VerticalContentAlignment="Center"
+                           Content="Client install location:" FontSize="16" FontFamily="Roboto Light"/>
+                    <materialDesign:PopupBox VerticalAlignment="Center" VerticalContentAlignment="Center" PopupMode="MouseOver"
+                                             PopupContent="  Pss. Just keep it at default if you dont know what this means.  ">
+                        <materialDesign:PopupBox.ToggleContent>
+                            <materialDesign:PackIcon Foreground="{Binding Foreground, ElementName=window}" Kind="InformationOutline"/>
+                        </materialDesign:PopupBox.ToggleContent>
+                    </materialDesign:PopupBox>
+                    <CheckBox x:Name="DefaultPathCheckBox" Style="{StaticResource MaterialDesignFilterChipPrimaryOutlineCheckBox}"
+                              IsChecked="True" Grid.Column="1" Margin="15,0"
+                              FontSize="16" FontFamily="Roboto Light" Height="35"
+                              VerticalAlignment="Top" HorizontalAlignment="Center"
+                              Unchecked="DefaultPathCheckBox_Unchecked"
+                              Checked="DefaultPathCheckBox_Checked">
+                        Default path
+                    </CheckBox>
+                    <Button Name="ClientFolderChooseButton"
+                            Foreground="{DynamicResource MaterialDesignBody}"
+                            Click="ClientFolderChooseButton_Click" BorderThickness="1"
+                            BorderBrush = "{StaticResource SecondaryHueMidBrush}"
+                            materialDesign:ButtonAssist.CornerRadius="16"
+                            Background="{x:Null}">
+                        <materialDesign:PackIcon Kind="FolderEdit"/>
+                    </Button>
+                </StackPanel>
+
+                <ScrollViewer Margin="5 10" Name="ClientPathViewer" MaxHeight="36"
+                              materialDesign:ScrollViewerAssist.IsAutoHideEnabled="True"
+                              HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                    <TextBlock VerticalAlignment="Center" Name="ClientPathTextBlock"
+                               TextWrapping="WrapWithOverflow"/>
+                </ScrollViewer>
+
+                <StackPanel Margin="0 10" Height="Auto" VerticalAlignment="Top" Orientation="Horizontal">
+                    <Label VerticalAlignment="Center" VerticalContentAlignment="Center"
+                       Content="Save playlist file to:" FontSize="16" FontFamily="Roboto Light"/>
+                    <materialDesign:Chip Name="DestinationChooseChip" Margin="8 0 0 0"
+                                         Click="DestinationChooseChip_Click" Foreground="#DDFFFFFF">
+                        <materialDesign:PackIcon Kind="FolderEdit"/>
+                    </materialDesign:Chip>
+                </StackPanel>
+
+                <ScrollViewer Margin="5,0,5,5" Name="SavePathViewer" MaxHeight="36"
+                              materialDesign:ScrollViewerAssist.IsAutoHideEnabled="True"
+                              HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                    <TextBlock VerticalAlignment="Center" Name="SavePathTextBlock"
+                               TextWrapping="WrapWithOverflow"/>
+                </ScrollViewer>
+            </StackPanel>
+
+
+            <StackPanel Grid.Column="1" Orientation="Vertical">
+                <StackPanel Height="Auto" VerticalAlignment="Top" Orientation="Horizontal">
+                    <Label VerticalAlignment="Center" VerticalContentAlignment="Center"
+                        Content="Playlist filetype:    " FontSize="16"/>
+                    <smtx:XamlDisplay UniqueKey="Display1" Width="75" Height="35">
+                        <ComboBox VerticalContentAlignment="Center" VerticalAlignment="Center"
+                              Name="FileTypeComboBox" Width="75" Height="26" 
+                              FontFamily="Quicksand" FontSize="16" Padding="0"/>
+                    </smtx:XamlDisplay>
+                </StackPanel>
+
+                <Button Margin="25" BorderThickness="1" Name="HyperStartButton"
+                        BorderBrush="{DynamicResource PrimaryHueLightBrush}"
+                        TextElement.Foreground="{DynamicResource PrimaryHueMidForegroundBrush}" 
+                        Click="HyperStartButton_Click">
+                    Let's gooooooooo!
+                </Button>
+            </StackPanel>
+        </Grid>
+
+        <Button Style="{StaticResource MaterialDesignIconForegroundButton}"
+                Margin="0,20,18,0" Click="ThemeButton_Click" ToolTip="Theme"
+                HorizontalAlignment="Right" VerticalAlignment="Top">
+            <materialDesign:PackIcon Kind="Palette"/>
+        </Button>
     </Grid>
 </Window>
