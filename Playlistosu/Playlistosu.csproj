@@ -84,6 +84,8 @@
     <Compile Include="ConfirmDialog.xaml.cs">
       <DependentUpon>ConfirmDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MapInfo.cs" />
+    <Compile Include="Status.cs" />
     <Compile Include="Worker.cs" />
     <Page Include="ConfirmDialog.xaml">
       <SubType>Designer</SubType>
